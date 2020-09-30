@@ -1,10 +1,11 @@
 <!doctype html>
+{% load static %}
 <html lang="en">
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
+    <link rel="stylesheet" href="{% static 'css/snackbar.css' %}">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
           integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
@@ -17,6 +18,10 @@
     </style>
 </head>
 <body>
+    <div id="snackBar" class="snackbar snack-show">
+        <span class="snackText" id="snackText"></span>
+        <button class="snack-button" id="snackButton"></button>
+        </div>
 {% if user.is_authenticated %}
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -39,14 +44,14 @@
         </form>
     </div>
 </nav>
-    {% load static %}
-    {% if messages %}
+
+    <!-- {% if messages %}
 <ul class="messages">
     {% for message in messages %}
     <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
     {% endfor %}
 </ul>
-{% endif %}
+{% endif %} -->
 {% block body %}
 
  {%  endblock %}
@@ -63,7 +68,7 @@
         crossorigin="anonymous"></script>
 {% block js %} {% endblock %}
 {% else %}
-{% endif %}
+
     <!--Main Navigation-->
     <header>
 
@@ -99,5 +104,21 @@
 
     </header>
     <!--Main Navigation-->
+    {% endif %}
 </body>
+<script src="{% static 'js/snackbar.js' %}"></script>
+{% if messages %}
+<script>
+    {% for message in messages %}
+    {% if message.tags %}
+     state = "{{message.tags}}";
+    {% endif %}
+    if(state=="error")
+    showSnackBar("{{message}}",hasAction = false,actionText = String(),isNormal = false,isWarning = true);
+    else
+    showSnackBar("{{message}}",hasAction = false,actionText = String(),isNormal = true,isWarning = false);
+    {% endfor %}
+    
+</script>
+{% endif %}
 </html>
