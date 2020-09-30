@@ -28,5 +28,6 @@ In order to run the project successfully and send the email successfully to the 
     
     Replace your_email@gmail.com with the email you want to send the mail from
     Replace your_password with the password of the respective email
+    Enable less Secure app access in the gmail account settings of the email you want to send the mail from.
 
 Now the project is all set to run enjoy!!!!!!!!!!!
