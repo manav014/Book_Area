@@ -1,0 +1,146 @@
+{% extends 'areas/base.html' %}
+
+{% load static %}
+{% block title %} Home  {% endblock %}
+{% block css %}.col-md-3 {
+    display: inline-block;
+    margin-left: -4px;
+    }
+
+    .carousel-indicators .active {
+    background-color: blue;
+    }
+
+    .col-md-3 img {
+    width: 100%;
+    height: auto;
+    }
+
+    body .carousel-indicator li {
+    background-color: blue;
+    }
+
+    body .carousel-indicators {
+    bottom: 0;
+    }
+
+    body .carousel-control-prev-icon,
+    body .carousel-control-next-icon {
+    background-color: blue;
+    }
+
+    .carousel-control-prev,
+    .carousel-control-next {
+    top: auto;
+    bottom: auto;
+    }
+
+    body .no-padding {
+    padding-left: 0,
+    padding-right: 0;
+    }{% endblock %}
+
+
+{% block body %}
+
+    <div class="container">
+        {% for areas, range, slides in allAreas %}
+            <h1>{{ areas.0.Area_college }}</h1>
+            <div id="demo{{ forloop.counter }}" class="carousel slide my-3" data-ride="carousel">
+            <ul class="carousel-indicators">
+                <li data-target="#demo" data-slide-to="0" class="active"></li>
+                {% for i in range %}
+                    <li data-target="#demo{{ forloop.parentloop.counter }}" data-slide-to="{{ i }}"></li>
+                {% endfor %}
+            </ul>
+
+            <!--Slideshow starts here -->
+            <div class="container carousel-inner no-padding">
+
+                <div class="carousel-item active">
+                    <div class="col-xs-3 col-sm-3 col-md-3">
+                        <div class="card" style="width: 18rem;">
+                            <img src='/media/{{ areas.0.Area_image }}' class="card-img-top" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ areas.0.Area_name }}</h5>
+                                <p class="card-text">{{ areas.0.Area_desc }}
+                                <form method="post" action="sendmail/">
+                                    <input type="hidden" id="email" name="email" value="{{ areas.0.Area_email }}">
+                                    <input type="hidden" id="area_name" name="area_name"
+                                           value="{{ areas.0.Area_name }}">
+                                    <input type="hidden" id="from_email" name="from_email"
+                                           value="{{ request.user.email }}">
+
+                                    {% csrf_token %}
+                                    <button id="ar{{ areas.0.id }}" class="btn btn-primary email" type="submit">Request
+                                        to Book Now
+                                    </button>
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
+                    {% for i in areas|slice:"1:" %}
+                        <div class="col-xs-3 col-sm-3 col-md-3">
+                            <div class="card" style="width: 18rem;">
+                                <img src='/media/{{ i.Area_image }}' class="card-img-top" alt="...">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ i.Area_name }}</h5>
+                                    <p class="card-text">{{ i.Area_desc }}</p>
+                                    <form method="post" action="sendmail/">
+                                        <input type="hidden" id="email" name="email" value="{{ i.Area_email }}">
+                                        <input type="hidden" id="area_name" name="area_name"
+                                               value="{{ i.Area_name }}">
+                                        <input type="hidden" id="from_email" name="from_email"
+                                               value="{{ request.user.email }}">
+
+                                        {% csrf_token %}
+                                        <button id="ar{{ i.id }}" class="btn btn-primary email" type="submit">
+                                            Request to Book Now
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        {% if forloop.counter|divisibleby:3 and forloop.counter > 0 and not forloop.last %}
+                            </div>
+                            <div class="carousel-item">
+                        {% endif %}
+                    {% endfor %}
+                    </div>
+
+
+            </div>
+
+            <!-- left and right controls for the slide -->
+            <a class="carousel-control-prev" href="#demo{{ forloop.counter }}" data-slide="prev">
+                <span class="carousel-control-prev-icon"></span>
+            </a>
+            <a class="carousel-control-next" href="#demo{{ forloop.counter }}" data-slide="next">
+                <span class="carousel-control-next-icon"></span>
+            </a>
+        {% endfor %}
+        </div>
+    </div>
+{% endblock %}
+{% block js %}
+    <script>
+        {#video 36#}
+        if (localStorage.getItem('email') == null) {
+            var email = {};
+        } else {
+            email = JSON.parse(localStorage.getItem('email'));
+        }
+        $('.email').click(function () {
+            console.log("booked");
+            var ar_id = this.id.toString();
+            console.log(ar_id);
+            if (email[idstr] != undefined) {
+
+            } else {
+                email[ar_id] = 1;
+            }
+            localStorage.setItem("email", JSON.stringify(email));
+        });
+    </script>
+{% endblock %}
