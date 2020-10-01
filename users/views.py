@@ -16,7 +16,7 @@ def query(request):
         name = request.POST['name']
         message = request.POST['message']
         send_mail('Query', 'Hey someone asked a query on Book Area. Name - ' + str(name) + " \nEmail -  " + str(email) + "\n Message - " + message, str(email),
-                  ["rajat123468@gmail.com"], fail_silently=False)
+                  ["<Add the recievers mail id here>"], fail_silently=False)
         return HttpResponse("Query Submitted")
 
 def logout_request(request):
