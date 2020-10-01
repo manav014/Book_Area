@@ -68,9 +68,43 @@
         crossorigin="anonymous"></script>
 {% block js %} {% endblock %}
 {% else %}
-<p>You are not logged in</p>
-    Goto <a href="/users/login">login</a> to login to the website.
-{% endif %}
+
+    <!--Main Navigation-->
+    <header>
+
+        <!--Mask-->
+        <div id="intro" class="view">
+
+            <div class="mask rgba-black-strong">
+
+                <div class="container-fluid d-flex align-items-center justify-content-center h-100">
+
+                    <div class="row d-flex justify-content-center text-center">
+
+                        <div class="col-md-10">
+
+                            <!-- Heading -->
+                            <h2 class="display-4 font-weight-bold white-text pt-5 mb-2">Book Area</h2>
+
+                            <!-- Divider -->
+                            <hr class="hr-light">
+
+                            <!-- Description -->
+                            <h4 class="white-text my-4">Book an area with Django. You may book any area of any college through the portal.</h4>
+
+                            <p>You are not logged in</p>
+                            
+                            Goto <a href="/users/login">login</a> to login to the website.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--/.Mask-->
+
+    </header>
+    <!--Main Navigation-->
+    {% endif %}
 </body>
 <script src="{% static 'js/snackbar.js' %}"></script>
 {% if messages %}
