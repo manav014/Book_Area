@@ -6,6 +6,7 @@ urlpatterns = [
 
    # path('register/', views.register, name="register"),
    # path('login', views.login_request, name="login"),
+    path("",views.index,name="home page"),
     path("logout", views.handleLogout, name="handleLogout"),
     path('signup', views.handleSignup, name="handleSignup"),
     path('handleLogin', views.handleLogin, name="handleLogin"),
