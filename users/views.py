@@ -6,6 +6,8 @@ from django.contrib.auth.models import User
 
 
 # Create your views here.
+def index(request):
+    return render(request,"users/index.html")
 
 def logout_request(request):
     request.session['logged'] = False
