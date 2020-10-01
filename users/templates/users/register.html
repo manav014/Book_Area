@@ -30,27 +30,27 @@
     <form action="/users/signup" method="post">
         <div class="form-group">
             <label for="fname">First Name</label>
-            <input type="text" class="form-control" id="fname" placeholder="Enter First Name" name="fname" required>
+            <input type="text" class="form-control" id="fname" placeholder="Enter First Name" name="fname" value="{{FNAME}}" required>
         </div>
         <div class="form-group">
             <label for="lname">Last Name</label>
-            <input type="text" class="form-control" id="lname" placeholder="Enter Last Name" name="lname"required>
+            <input type="text" class="form-control" id="lname" placeholder="Enter Last Name" name="lname" value="{{LNAME}}" required>
         </div>
         <div class="form-group">
             <label for="username">Username</label>
-            <input type="text" class="form-control" id="username" placeholder="Enter Username" name="username"required>
+            <input type="text" class="form-control" id="username" placeholder="Enter Username" name="username" value="{{USERNAME}}" required>
         </div>
         <div class="form-group">
             <label for="email">Email</label>
-            <input type="email" class="form-control" id="email" placeholder="Enter Email" name="email"required>
+            <input type="email" class="form-control" id="email" placeholder="Enter Email" name="email" value="{{EMAIL}}" required>
         </div>
         <div class="form-group">
             <label for="pwd">Password</label>
-            <input type="password" class="form-control" id="pwd" placeholder="Enter Password" name="pwd"required>
+            <input type="password" class="form-control" id="pwd" placeholder="Enter Password" name="pwd" required>
         </div>
         <div class="form-group">
             <label for="mobile">Contact Number</label>
-            <input type="text" class="form-control" id="mobile" placeholder="Enter Contact Number" name="mobile" required>
+            <input type="text" class="form-control" id="mobile" placeholder="Enter Contact Number" name="mobile" value="{{CONTACT}}"  required>
         </div>
         {% csrf_token %}
         <button type="submit" class="btn btn-primary">Submit</button>
