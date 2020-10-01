@@ -2,20 +2,23 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, logout, login
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-
 from django.contrib.auth.models import User
 
 
 # Create your views here.
 
 def logout_request(request):
+    request.session['logged'] = False
     logout(request)
     messages.info(request, "Logged out successfully")
     return render(request, "users/login.html")
 
 
 def login_form(request):
-    return render(request, "users/login.html")
+    if(request.session.has_key('logged')==False or request.session['logged']==False):
+        return render(request, "users/login.html")
+    else:
+        return redirect('/areas')
 
 
 def register_form(request):
@@ -47,10 +50,11 @@ def handleLogin(request):
         user = authenticate(username = username, password = pwd)
         if user is not None:
             login(request, user)
-            messages.success(request, "successfully logged in ");
+            request.session['logged'] = True
+            messages.success(request, "Successfully Logged In ");
             return redirect('/areas')
         else:
-            messages.error(request, "Invalid credentials")
+            messages.error(request, "Invalid Credentials")
             return redirect('/users/login')
     else:
         return HttpResponse("404 not found")
