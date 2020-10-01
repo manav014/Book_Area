@@ -45,6 +45,20 @@ def handleSignup(request):
         email = request.POST['email']
         pwd = request.POST['pwd']
         mobile = request.POST['mobile']
+        if len(pwd)<8:
+            messages.error(request, "Password should be atleast 8 characters long.")
+            return render(request,'users/register.html',{"USERNAME":username,"FNAME":fname,"LNAME":lname,"EMAIL":email,"CONTACT":mobile})
+        if len(mobile)!=10 or mobile.isnumeric()==False:
+            messages.error(request, "Invalid Contact Number")
+            mobile=""
+            return render(request,'users/register.html',{"USERNAME":username,"FNAME":fname,"LNAME":lname,"EMAIL":email,"CONTACT":mobile})
+        try:
+            if User.objects.get(username=username):
+                messages.error(request, "This username ("+username+") already exists.")
+                username=""
+                return render(request,'users/register.html',{"USERNAME":username,"FNAME":fname,"LNAME":lname,"EMAIL":email,"CONTACT":mobile})
+        except:
+            pass
         myuser = User.objects.create_user(username, email, pwd)
         myuser.first_name = fname
         myuser.last_name = lname
