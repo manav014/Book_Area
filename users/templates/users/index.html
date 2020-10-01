@@ -1,7 +1,9 @@
 <!DOCTYPE html>
+{% load static %}
 <html lang="en" style="scroll-behavior: smooth;">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="{% static 'css/snackbar.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,10 +15,14 @@
     background-size: cover,contain;
     background-position: fixed top center;
     background-repeat: no-repeat;
-    back
   }
+ 
 </style>
 <body>
+  <div id="snackBar" class="snackbar snack-show">
+    <span class="snackText" id="snackText"></span>
+    <button class="snack-button" id="snackButton"></button>
+    </div>
 <header class="text-gray-700 bg-indigo-500 body-font">
   <div class="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
     <a class="flex title-font font-medium items-center text-gray-900 mb-4 md:mb-0">
@@ -45,7 +51,7 @@
             </h1>
             <p class="mb-8 leading-relaxed">One place to book an hall, auditorium or seminar room in the ABES Engineering College. You may book any area of any college through the portal.</p>
             <div class="flex justify-center">
-              <button class="inline-flex text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg">Get Started</button>
+             <a href="/users/login"> <button class="inline-flex text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg">Get Started</button></a>
             </div>
           </div>
           <div class="lg:max-w-lg lg:w-full md:w-1/2 w-4/6">
@@ -105,16 +111,19 @@
           <div class="lg:w-1/2 md:w-2/3 mx-auto">
             <div class="flex flex-wrap -m-2">
               <div class="p-2 w-1/2">
-                <input class="w-full bg-gray-100 rounded border border-gray-400 focus:outline-none focus:border-indigo-500 text-base px-4 py-2" placeholder="Name" type="text">
+                <input id="name" class="w-full bg-gray-100 rounded border border-gray-400 focus:outline-none focus:border-indigo-500 text-base px-4 py-2" placeholder="Name" type="text">
               </div>
               <div class="p-2 w-1/2">
-                <input class="w-full bg-gray-100 rounded border border-gray-400 focus:outline-none focus:border-indigo-500 text-base px-4 py-2" placeholder="Email" type="email">
+                <input id="email" class="w-full bg-gray-100 rounded border border-gray-400 focus:outline-none focus:border-indigo-500 text-base px-4 py-2" placeholder="Email" type="email">
               </div>
               <div class="p-2 w-full">
-                <textarea class="w-full bg-gray-100 rounded border border-gray-400 focus:outline-none h-48 focus:border-indigo-500 text-base px-4 py-2 resize-none block" placeholder="Message"></textarea>
+                <textarea id="message" class="w-full bg-gray-100 rounded border border-gray-400 focus:outline-none h-48 focus:border-indigo-500 text-base px-4 py-2 resize-none block" placeholder="Message"></textarea>
               </div>
               <div class="p-2 w-full">
-                <button class="flex mx-auto text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">Button</button>
+                <button class="flex mx-auto text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg"id="query">Submit</button>
+                <button id="load" class="flex mx-auto text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg" style="display: none;">
+                  <i class="fa fa-spinner fa-spin"></i>&nbsp;Please Wait
+                </button>
               </div>
            
             </div>
@@ -157,4 +166,33 @@
         </div>
       </footer>
 </body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="{% static 'js/snackbar.js' %}"></script>
+<script>
+$("#query").on("click" , ()=>{
+ 
+  name = $("#name").val();
+  email = $("#email").val();
+  message = $("#message").val();
+  if(name=="" || email=="" || message==""){
+    showSnackBar("Please fill all the fields",hasAction = false,actionText = String(),isNormal = false,isWarning = true);
+    return;
+  }
+  $("#load").show();
+  $("#query").hide();
+  $.post("/askquery",{
+  "name": $("#name").val(),
+  "email": $("#email").val(),
+  "message": $("#message").val(),
+  "csrfmiddlewaretoken":"{{csrf_token}}"
+},(data,success)=>{
+  showSnackBar(data,hasAction = false,actionText = String(),isNormal = true,isWarning = false);
+  $("#load").hide();
+  $("#query").show();
+  $("#name").val("");
+  $("#email").val("");
+  $("#message").val("");
+});
+});
+</script>
 </html>

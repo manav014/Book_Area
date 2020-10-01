@@ -3,11 +3,21 @@ from django.contrib.auth import authenticate, logout, login
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth.models import User
+from django.core.mail import send_mail
 
 
 # Create your views here.
 def index(request):
     return render(request,"users/index.html")
+
+def query(request):
+    if request.method == 'POST':
+        email = request.POST['email']
+        name = request.POST['name']
+        message = request.POST['message']
+        send_mail('Query', 'Hey someone asked a query on Book Area. Name - ' + str(name) + " \nEmail -  " + str(email) + "\n Message - " + message, str(email),
+                  ["rajat123468@gmail.com"], fail_silently=False)
+        return HttpResponse("Query Submitted")
 
 def logout_request(request):
     request.session['logged'] = False

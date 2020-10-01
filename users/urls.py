@@ -12,4 +12,5 @@ urlpatterns = [
     path('handleLogin', views.handleLogin, name="handleLogin"),
     path('login', views.login_form, name="login_form"),
     path('register/', views.register_form, name="register_form"),
+    path("askquery",views.query,name="ask query"),
 ]
