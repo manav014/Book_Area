@@ -1,8 +1,12 @@
 .idea/
 *.pyc
 */__pycache__/*
-/users/__pycache__
-/event/__pycache__
-/areas/__pycache__
-/db.sqlite3
+/users/__pycache__/*
+/event/__pycache__/*
+/areas/__pycache__/*
+db.sqlite3
 *.pyc
+*~  
+__pycache__  
+myvenv  
+.DS_Store
